@@ -1,0 +1,47 @@
+<%- include("partials/header") %>
+    <main class="booking-page">
+      <section class="booking-section">
+        <div class="container">
+          <div class="booking-heading">
+            <span class="eyebrow"><span class="eyebrow-dot"></span> Patient account</span>
+            <h1>My Appointments</h1>
+            <p>Your appointment history, newest bookings first.</p>
+          </div>
+          <% if (notice) { %>
+            <div class="booking-notice account-notice" role="status"><%= notice %></div>
+          <% } %>
+          <% if (appointments.length) { %>
+            <div class="appointments-list">
+              <% appointments.forEach((appointment) => { %>
+                <article class="booking-card appointment-card">
+                  <div class="appointment-heading">
+                    <div>
+                      <span class="appointment-status <%= appointment.status === 'Cancelled' ? 'is-cancelled' : '' %>"><%= appointment.status %></span>
+                      <h2><%= appointment.specialty %></h2>
+                      <p><%= appointment.doctor %></p>
+                    </div>
+                    <% if (appointment.status === "Booked") { %>
+                      <form action="/my-appointments/<%= appointment.id %>/cancel" method="post">
+                        <button class="btn btn-outline-secondary btn-sm" type="submit">Cancel</button>
+                      </form>
+                    <% } %>
+                  </div>
+                  <dl class="booking-summary">
+                    <div><dt>Date &amp; time</dt><dd><%= appointment.appointmentDateTime.replace("T", " ").replace(/:00$/, "") %></dd></div>
+                    <div><dt>Patient</dt><dd><%= appointment.patientName %></dd></div>
+                    <div><dt>Booked</dt><dd><%= appointment.createdAt %></dd></div>
+                  </dl>
+                </article>
+              <% }); %>
+            </div>
+          <% } else { %>
+            <section class="booking-card empty-appointments">
+              <h2>No appointments yet</h2>
+              <p>When you book an appointment, it will appear here.</p>
+              <a class="btn btn-primary" href="/booking">Book an appointment</a>
+            </section>
+          <% } %>
+        </div>
+      </section>
+    </main>
+<%- include("partials/footer") %>

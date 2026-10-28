@@ -1,0 +1,40 @@
+<%- include("partials/header") %>
+    <main class="booking-page">
+      <section class="booking-section">
+        <div class="container">
+          <div class="booking-heading">
+            <span class="eyebrow"><span class="eyebrow-dot"></span> Lakeside Medical Clinic</span>
+            <h1><%= isRegister ? "Create your patient account" : "Welcome back" %></h1>
+            <p><%= isRegister ? "Register with your email to manage your appointments." : "Log in to manage your appointments." %></p>
+          </div>
+          <form class="booking-card auth-form" action="<%= isRegister ? '/register' : '/login' %>" method="post">
+            <% if (error) { %>
+              <div class="booking-errors" role="alert"><%= error %></div>
+            <% } %>
+            <div class="mb-3">
+              <label class="booking-label" for="email">Email</label>
+              <input class="form-control" type="email" id="email" name="email" autocomplete="email" maxlength="254" value="<%= email %>" required>
+            </div>
+            <div class="mb-3">
+              <label class="booking-label" for="password">Password</label>
+              <input class="form-control" type="password" id="password" name="password" autocomplete="<%= isRegister ? 'new-password' : 'current-password' %>" minlength="<%= isRegister ? 10 : 1 %>" maxlength="72" required>
+              <% if (isRegister) { %>
+                <small class="booking-hint">Use at least 10 characters.</small>
+              <% } %>
+            </div>
+            <% if (isRegister) { %>
+              <div class="mb-4">
+                <label class="booking-label" for="passwordConfirmation">Confirm password</label>
+                <input class="form-control" type="password" id="passwordConfirmation" name="passwordConfirmation" autocomplete="new-password" minlength="10" maxlength="72" required>
+              </div>
+            <% } %>
+            <button class="btn btn-primary w-100" type="submit"><%= isRegister ? "Register" : "Login" %></button>
+            <p class="auth-switch">
+              <%= isRegister ? "Already have an account?" : "New to Lakeside Medical Clinic?" %>
+              <a href="<%= isRegister ? '/login' : '/register' %>"><%= isRegister ? "Login" : "Register" %></a>
+            </p>
+          </form>
+        </div>
+      </section>
+    </main>
+<%- include("partials/footer") %>
